@@ -1,0 +1,243 @@
+/* Frase célebre destacada */
+.frase-hero {
+  position: relative;
+  background: linear-gradient(135deg, #f7d302, #f5c518);
+  border-radius: 20px;
+  padding: 1.6rem 2rem 1.4rem;
+  margin-bottom: 1.75rem;
+  box-shadow: var(--sombra);
+}
+
+.frase-hero .comillas {
+  position: absolute;
+  top: -0.4rem;
+  left: 1rem;
+  font-size: 4.5rem;
+  line-height: 1;
+  color: rgba(28, 34, 51, 0.15);
+  font-family: Georgia, serif;
+}
+
+.frase-hero blockquote {
+  margin: 0;
+  font-size: 1.15rem;
+  font-style: italic;
+  line-height: 1.5;
+  color: #1c2233;
+}
+
+.frase-hero cite {
+  display: block;
+  margin-top: 0.6rem;
+  font-style: normal;
+  font-weight: 700;
+  color: #4a3f04;
+}
+
+.btn-frase {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.5rem 0.9rem;
+  background: rgba(28, 34, 51, 0.85);
+  color: #f7d302;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.btn-frase:hover {
+  transform: scale(1.05);
+}
+
+/* Pestañas */
+.tabs {
+  display: inline-flex;
+  gap: 0.5rem;
+  padding: 0.4rem;
+  background: var(--color-superficie);
+  border-radius: 999px;
+  box-shadow: var(--sombra);
+  margin-bottom: 1.75rem;
+}
+
+.tab {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.6rem 1.3rem;
+  background: transparent;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-suave);
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.tab.activa {
+  background: #f5c518;
+  color: #1c2233;
+}
+
+/* Rejilla de tarjetas */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.4rem;
+  margin-bottom: 2rem;
+}
+
+.tarjeta-personaje,
+.tarjeta-episodio {
+  background: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: var(--sombra);
+  display: flex;
+  flex-direction: column;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.tarjeta-personaje:hover,
+.tarjeta-episodio:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 32px rgba(28, 34, 51, 0.14);
+}
+
+/* Personaje */
+.retrato {
+  position: relative;
+  background: linear-gradient(160deg, #fdf3cf, #f7d302);
+  display: flex;
+  justify-content: center;
+}
+
+.retrato img {
+  width: 100%;
+  max-height: 220px;
+  object-fit: contain;
+  padding: 1rem;
+}
+
+.badge-estado {
+  position: absolute;
+  top: 0.7rem;
+  right: 0.7rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  background: #16a34a;
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.badge-estado.fallecido {
+  background: #6b7280;
+}
+
+.tarjeta-personaje .info,
+.tarjeta-episodio .info {
+  padding: 1.1rem 1.2rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1;
+}
+
+.tarjeta-personaje h3,
+.tarjeta-episodio h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.ocupacion {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #b45309;
+}
+
+.meta {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--color-suave);
+}
+
+.frases {
+  list-style: none;
+  margin: 0.4rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.frases li {
+  font-size: 0.82rem;
+  font-style: italic;
+  color: #4b5563;
+  background: #fbf7e6;
+  border-left: 3px solid #f5c518;
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+  line-height: 1.4;
+}
+
+/* Episodio */
+.tarjeta-episodio img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: #0b1020;
+}
+
+.etiquetas {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.tag-temporada {
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(74, 144, 217, 0.14);
+  color: #357abd;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.tag-fecha {
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: #f1f3f9;
+  color: var(--color-suave);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.sinopsis {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--color-suave);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tarjeta-personaje,
+  .tarjeta-episodio,
+  .btn-frase,
+  .tab {
+    transition: none;
+  }
+}

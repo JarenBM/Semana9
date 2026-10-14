@@ -1,0 +1,125 @@
+<div class="page-shell">
+  <header class="page-header">
+    <a routerLink="/" class="back-link">← Volver</a>
+    <div class="page-titles">
+      <h1 class="page-title">🍩 Los Simpson</h1>
+      <p class="page-subtitle">Personajes y episodios de Springfield · thesimpsonsapi.com</p>
+    </div>
+    @if (totalPersonajes() > 0) {
+      <span class="badge-info">
+        {{ totalPersonajes() | number }} personajes · {{ totalEpisodios() | number }} episodios
+      </span>
+    }
+  </header>
+
+  <!-- Frase célebre destacada -->
+  @if (frase(); as f) {
+    <section class="frase-hero" aria-label="Frase célebre">
+      <span class="comillas" aria-hidden="true">“</span>
+      <blockquote>{{ f.texto }}</blockquote>
+      <cite>— {{ f.personaje }}</cite>
+      <button class="btn-frase" (click)="sortearFrase()">🎲 Otra frase</button>
+    </section>
+  }
+
+  <!-- Pestañas: personajes / episodios -->
+  <div class="tabs" role="tablist" aria-label="Secciones">
+    <button
+      role="tab"
+      class="tab"
+      [class.activa]="pestana() === 'personajes'"
+      [attr.aria-selected]="pestana() === 'personajes'"
+      (click)="cambiarPestana('personajes')"
+    >
+      👤 Personajes
+    </button>
+    <button
+      role="tab"
+      class="tab"
+      [class.activa]="pestana() === 'episodios'"
+      [attr.aria-selected]="pestana() === 'episodios'"
+      (click)="cambiarPestana('episodios')"
+    >
+      📺 Episodios
+    </button>
+  </div>
+
+  @if (cargando()) {
+    <div class="estado cargando">Cargando datos de Springfield…</div>
+  }
+
+  @if (error(); as err) {
+    <div class="estado error">
+      <p>{{ err }}</p>
+      <button class="btn-primary" (click)="reintentar()">Reintentar</button>
+    </div>
+  }
+
+  @if (!cargando() && !error()) {
+    @if (pestana() === 'personajes') {
+      <div class="grid">
+        @for (c of personajes(); track c.id) {
+          <article class="tarjeta-personaje">
+            <div class="retrato">
+              <img [src]="imageUrl(c.portrait_path)" [alt]="c.name" loading="lazy" />
+              @if (c.status; as st) {
+                <span class="badge-estado" [class.fallecido]="st !== 'Alive'">
+                  {{ st === 'Alive' ? 'Vivo' : 'Fallecido' }}
+                </span>
+              }
+            </div>
+            <div class="info">
+              <h3>{{ c.name }}</h3>
+              @if (c.occupation) {
+                <p class="ocupacion">🔨 {{ c.occupation }}</p>
+              }
+              <p class="meta">
+                @if (c.age) {
+                  {{ c.age }} años ·
+                }
+                {{ c.gender }}
+              </p>
+              @if (c.phrases; as frases) {
+                <ul class="frases">
+                  @for (fr of frases.slice(0, 2); track $index) {
+                    <li>“{{ fr }}”</li>
+                  }
+                </ul>
+              }
+            </div>
+          </article>
+        }
+      </div>
+    } @else {
+      <div class="grid">
+        @for (e of episodios(); track e.id) {
+          <article class="tarjeta-episodio">
+            <img [src]="imageUrl(e.image_path)" [alt]="e.name" loading="lazy" />
+            <div class="info">
+              <div class="etiquetas">
+                <span class="tag-temporada">T{{ e.season }} · E{{ e.episode_number }}</span>
+                <span class="tag-fecha">{{ e.airdate }}</span>
+              </div>
+              <h3>{{ e.name }}</h3>
+              <p class="sinopsis">{{ e.synopsis }}</p>
+            </div>
+          </article>
+        }
+      </div>
+    }
+
+    <nav class="paginacion" aria-label="Paginación">
+      <button class="pag-btn" [disabled]="paginaActual() <= 1 || cargando()" (click)="anterior()">
+        ← Anterior
+      </button>
+      <span class="pag-info">Página {{ paginaActual() }} de {{ paginasTotales() }}</span>
+      <button
+        class="pag-btn"
+        [disabled]="paginaActual() >= paginasTotales() || cargando()"
+        (click)="siguiente()"
+      >
+        Siguiente →
+      </button>
+    </nav>
+  }
+</div>

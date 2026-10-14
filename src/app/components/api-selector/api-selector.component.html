@@ -1,0 +1,41 @@
+<div class="page-shell">
+  <header class="hero">
+    <p class="hero-distintivo">Angular 22 · SSR · APIs públicas en vivo</p>
+    <h1>Universo de APIs <span aria-hidden="true">🚀</span></h1>
+    <p class="hero-sub">
+      Elige una tarjeta para adentrarte en su API: cinco universos consumidos en tiempo real desde
+      Angular, con búsqueda, filtros y paginación.
+    </p>
+  </header>
+
+  <div class="api-grid">
+    @for (api of apis; track api.ruta; let i = $index) {
+      <a
+        class="api-card"
+        [routerLink]="api.ruta"
+        [style.--tema]="api.color"
+        [style.animation-delay]="i * 90 + 'ms'"
+        (click)="clicTarjeta()"
+      >
+        <div class="api-icono" aria-hidden="true">{{ api.emoji }}</div>
+        <div class="api-cuerpo">
+          <h2>{{ api.titulo }}</h2>
+          <p class="api-desc">{{ api.descripcion }}</p>
+          <ul class="api-tags">
+            @for (tag of api.caracteristicas; track tag) {
+              <li>{{ tag }}</li>
+            }
+          </ul>
+          <div class="api-pie">
+            <span class="api-dominio">{{ api.dominio }}</span>
+            <span class="api-cta">Explorar →</span>
+          </div>
+        </div>
+      </a>
+    }
+  </div>
+
+  <footer class="selector-pie">
+    <p>Los datos provienen de APIs públicas y gratuitas · Proyecto Semana 9</p>
+  </footer>
+</div>

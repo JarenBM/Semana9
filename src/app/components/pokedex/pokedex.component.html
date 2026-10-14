@@ -1,0 +1,174 @@
+<div class="pokedex-container">
+  <a routerLink="/" class="back-link">← Volver al selector</a>
+  <h1>Pokédex Angular 🦎</h1>
+
+  <!-- controles -->
+  <div class="controls">
+    <div class="search-box">
+      <input
+        type="text"
+        [ngModel]="searchTerm()"
+        (ngModelChange)="searchTerm.set($event); onSearch()"
+        placeholder="Buscar Pokémon (por nombre)..."
+        class="search-input"
+        aria-label="Buscar Pokémon"
+      />
+    </div>
+
+    <div class="filter-box">
+      <select
+        [ngModel]="selectedType()"
+        (ngModelChange)="selectedType.set($event); onTypeChange()"
+        class="type-select"
+        aria-label="Filtrar por tipo"
+      >
+        <option value="">Todos los tipos</option>
+        @for (type of types(); track type.name) {
+          <option [value]="type.name">
+            {{ type.name | titlecase }}
+          </option>
+        }
+      </select>
+    </div>
+  </div>
+
+  <!-- estado de carga -->
+  @if (loading()) {
+    <div class="loading">Cargando Pokémon...</div>
+  }
+
+  <!-- error -->
+  @if (error()) {
+    <div class="error">{{ error() }}</div>
+  }
+
+  <!-- grid de Pokémon -->
+  <div class="pokemon-grid">
+    @for (pokemon of pokemons(); track pokemon.id) {
+      <div
+        class="pokemon-card"
+        (click)="expandPokemon(pokemon)"
+        [class.expanded]="expandedPokemon()?.id === pokemon.id"
+      >
+        <!-- Flipped card -->
+        <div class="card-inner">
+          <!-- Frente de la tarjeta -->
+          <div class="card-front">
+            <div class="pokemon-image">
+              <img
+                [src]="getImageUrl(pokemon)"
+                [alt]="pokemon.name"
+                loading="lazy"
+                class="pokemon-sprite"
+              />
+            </div>
+            <div class="pokemon-info">
+              <span class="pokemon-id">#{{ pokemon.id }}</span>
+              <h3 class="pokemon-name">{{ pokemon.name | titlecase }}</h3>
+              <div class="pokemon-types">
+                @for (type of pokemon.types; track type.type.name) {
+                  <span class="type-badge" [style.background-color]="getTypeColor(type.type.name)">
+                    {{ type.type.name | titlecase }}
+                  </span>
+                }
+              </div>
+            </div>
+          </div>
+
+          <!-- Dorso de la tarjeta -->
+          <div class="card-back">
+            <div class="back-header">
+              <span class="pokemon-id-back">#{{ pokemon.id }}</span>
+              <h2 class="pokemon-name-back">{{ pokemon.name | titlecase }}</h2>
+              <button
+                (click)="playCry(pokemon); $event.stopPropagation()"
+                class="cry-btn"
+                aria-label="Reproducir cry de {{ pokemon.name }}"
+                title="Reproducir cry"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M4 4h16v2H4V4zm0 6h16v2H4V10zm0 6h16v2H4v-2zm0 6h16v2H4v-2z" />
+                </svg>
+              </button>
+            </div>
+
+            <div class="back-body">
+              <!--Estadísticas clave-->
+              <div class="stats-row">
+                <div class="stat">
+                  <span class="stat-label">Altura</span>
+                  <span class="stat-value"> {{ pokemon.height / 10 }} m </span>
+                </div>
+                <div class="stat">
+                  <span class="stat-label">Peso</span>
+                  <span class="stat-value"> {{ pokemon.weight / 10 }} kg </span>
+                </div>
+              </div>
+
+              <div class="stats-row">
+                <div class="stat">
+                  <span class="stat-label">Experiencia</span>
+                  <span class="stat-value">
+                    {{ pokemon.base_experience }}
+                  </span>
+                </div>
+                <div class="stat">
+                  <span class="stat-label">ID Nacional</span>
+                  <span class="stat-value">{{ pokemon.id }}</span>
+                </div>
+              </div>
+
+              <div class="abilities">
+                <span class="abilities-label">Tipos</span>
+                @for (type of pokemon.types; track type.type.name) {
+                  <span
+                    class="ability-badge"
+                    [style.background-color]="getTypeColor(type.type.name)"
+                  >
+                    {{ type.type.name | titlecase }}
+                  </span>
+                }
+              </div>
+
+              <!-- Descripción cuando la tarjeta está expandida -->
+              @if (expandedPokemon()?.id === pokemon.id) {
+                <div class="species-desc">
+                  <strong>Descripción:</strong>
+                  <p class="desc-text">
+                    {{ pokemon.name | titlecase }} is
+                    {{ speciesDesc() || 'Cargando descripción...' }}
+                  </p>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Paginación -->
+  <div class="pagination">
+    <button
+      (click)="prevPage()"
+      [disabled]="!hasPrev()"
+      class="page-btn"
+      aria-label="Página anterior"
+    >
+      Anterior
+    </button>
+
+    <span class="page-info">
+      Página {{ currentPage() }} de {{ totalPages() }} ({{ totalItems() }} Pokémon)
+    </span>
+
+    <button
+      (click)="nextPage()"
+      [disabled]="!hasNext()"
+      class="page-btn"
+      aria-label="Siguiente página"
+    >
+      Siguiente
+    </button>
+  </div>
+</div>

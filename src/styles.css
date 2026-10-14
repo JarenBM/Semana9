@@ -1,0 +1,224 @@
+/* =============================================
+   Estilos globales (tema claro moderno)
+   ============================================= */
+
+:root {
+  --color-fondo: #f2f4fb;
+  --color-superficie: #ffffff;
+  --color-texto: #1c2233;
+  --color-suave: #5d6579;
+  --color-borde: #e4e8f4;
+  --color-primario: #4a90d9;
+  --radio: 16px;
+  --sombra: 0 6px 24px rgba(28, 34, 51, 0.08);
+  --fuente: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--fuente);
+  color: var(--color-texto);
+  min-height: 100vh;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, #dbe7ff 0%, transparent 60%),
+    radial-gradient(900px 500px at 110% 10%, #ffe9d6 0%, transparent 55%), var(--color-fondo);
+}
+
+/* Contenedor compartido de las páginas */
+.page-shell {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.75rem;
+}
+
+.page-titles {
+  flex: 1;
+  min-width: 220px;
+}
+
+.page-title {
+  margin: 0;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  letter-spacing: -0.01em;
+}
+
+.page-subtitle {
+  margin: 0.35rem 0 0;
+  color: var(--color-suave);
+}
+
+.badge-info {
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  background: rgba(74, 144, 217, 0.12);
+  color: #357abd;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+/* Enlace "volver" compartido */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  background: var(--color-superficie);
+  color: var(--color-texto);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: 1px solid var(--color-borde);
+  box-shadow: var(--sombra);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.back-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(28, 34, 51, 0.12);
+}
+
+/* Controles compartidos (búsquedas y filtros) */
+.controls {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 1.75rem;
+}
+
+.text-input,
+.select-input {
+  padding: 0.75rem 1.1rem;
+  border: 2px solid var(--color-borde);
+  border-radius: 999px;
+  font-size: 1rem;
+  font-family: var(--fuente);
+  background: var(--color-superficie);
+  color: var(--color-texto);
+  min-width: 220px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.text-input:focus,
+.select-input:focus {
+  outline: none;
+  border-color: var(--color-primario);
+  box-shadow: 0 0 0 4px rgba(74, 144, 217, 0.15);
+}
+
+.btn-primary {
+  padding: 0.75rem 1.4rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--color-primario);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: var(--fuente);
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(74, 144, 217, 0.35);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Estados compartidos: carga, error y vacío */
+.estado {
+  text-align: center;
+  padding: 3rem 1rem;
+  font-size: 1.05rem;
+  border-radius: var(--radio);
+  background: var(--color-superficie);
+  box-shadow: var(--sombra);
+  margin-bottom: 1.75rem;
+}
+
+.estado.cargando {
+  color: var(--color-suave);
+}
+
+.estado.error {
+  color: #c62828;
+}
+
+.estado.vacio {
+  color: var(--color-suave);
+}
+
+/* Paginación compartida */
+.paginacion {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 1.25rem;
+  background: var(--color-superficie);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+}
+
+.pag-btn {
+  padding: 0.65rem 1.25rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--color-primario);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  font-family: var(--fuente);
+  min-width: 120px;
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease;
+}
+
+.pag-btn:hover:not(:disabled) {
+  background: #357abd;
+  transform: translateY(-2px);
+}
+
+.pag-btn:disabled {
+  background: #c8cede;
+  cursor: not-allowed;
+}
+
+.pag-info {
+  font-weight: 600;
+  color: var(--color-suave);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .back-link,
+  .btn-primary,
+  .pag-btn {
+    transition: none;
+  }
+}
