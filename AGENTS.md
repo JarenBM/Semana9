@@ -11,6 +11,7 @@
 - Test: `ng test` (Vitest runner — **not** Karma/Jasmine)
 - Serve SSR: `npm run build && npm run serve:ssr:Semana9`
 - Format: `npx prettier --write .` (printWidth 100, single quotes for TS)
+- Deploy: push a `main` (o manual) ejecuta `.github/workflows/deploy-github-pages.yml` → GitHub Pages con `bitovi/github-actions-angular-to-github-pages`; requiere Settings → Pages → Source: "GitHub Actions" y repo público.
 
 **No `lint` script exists** — only Prettier. Don't try `npm run lint`.
 

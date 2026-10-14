@@ -1,0 +1,53 @@
+# Despliegue automático en GitHub Pages con la action del marketplace:
+#   bitovi/github-actions-angular-to-github-pages
+#
+# Configuración única requerida en el repo (GitHub):
+#   Settings > Pages > Source = "GitHub Actions"
+#   El repo debe ser público para que Pages sirva el contenido.
+#
+# La app es SSR pero TODAS las rutas se prerenderizan a HTML estático
+# (RenderMode.Prerender), por eso basta publicar dist/Semana9/browser.
+name: Desplegar a GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # ejecución manual desde la pestaña Actions
+
+# Un despliegue a la vez; no cancela uno que ya esté en curso
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: github-pages
+      url: ${{ steps.build-publish.outputs.page_url }}
+    steps:
+      - name: Descargar código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js 22 (requerido por Angular 22)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # npm ci + ng build + publicación del sitio en Pages.
+      # El build prerenderiza las 6 rutas llamando a las APIs externas (necesita red);
+      # si una API falla, el build NO falla: esa página se publica degradada.
+      - name: Compilar y desplegar
+        id: build-publish
+        uses: bitovi/github-actions-angular-to-github-pages@v1.0.0
+        with:
+          checkout: false # el código ya está descargado por actions/checkout
+          path: dist/Semana9/browser
+          build_command: npm run build -- --base-href=/${{ github.event.repository.name }}/
